@@ -11,7 +11,10 @@
 ```
 git clone git@github.com:dujh22/x-LLM.git
 cd x-LLM
-pip install --editable ./
+# 修改environment.yml中的内容
+  # name是conda环境的名称
+  # prefix是conda环境的路径
+conda env create -f environment.yml
 ```
 
 有关 conda 环境的详细信息，请参阅 environment.yml 文件。
@@ -27,8 +30,32 @@ environment.yml是用conda命令将环境信息导出备份的文件。
 		conda env create -f environment.yml -n new_env_name
 ```
 
+注意：原始environment.yml在复现过程中产生一些错误，需要根据错误提示进行相应的修改。
 
+可以采用以下手段：
 
+1. 去掉了pip后面所有包的版本号
+
+原因：typing-extensions(==4.7.1) 但多个其他包依赖不同的typing-extensions版本
+
+2. 删除bleurt并自行安装
+
+原因：找不到包满足bleurt==0.0.2
+
+方法：参照[google-research/bleurt: BLEURT is a metric for Natural Language Generation based on transfer learning. (github.com)](https://github.com/google-research/bleurt)手动安装
+
+```shell
+pip install --upgrade pip  # ensures that pip is current
+git clone https://github.com/google-research/bleurt.git
+cd bleurt
+pip install .
+```
+
+3. 删除tensorrt-libs==8.6.1并自行安装
+
+原因：安装子进程报错
+
+方法：再次使用 pip install tensorrt-libs==8.6.1会发现已经安装了
 
 ## 用法
 ### 下载 预训练 LLM

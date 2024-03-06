@@ -1,18 +1,28 @@
-BASE_MODEL=$1
+# 给每一行的代码添加注释    # 用于注释    
+# 用于训练模型的脚本
+# 模型名称
+BASE_MODEL=$1  
+# 数据集名称
 DATASET=$2
-METHOD=${3:-"finetune"}
+# 训练方法
+METHOD=${3:-"finetune"} # 如果没有传入第三个参数，则默认为finetune
 
-PORT=$(( $RANDOM % 1000 + 32768 ))
-CPFS_PATH=/home/user
-PROJECT_PATH=$CPFS_PATH/project/mt_instruction_tuning
+# 随机生成一个端口号
+PORT=$(( $RANDOM % 1000 + 32768 )) # 生成一个大于32768的随机数
+# 设置环境变量
+CPFS_PATH=/home/djh
+# 设置项目路径
+PROJECT_PATH=$CPFS_PATH/code/xllm # 这里xllm是项目文件夹名称，注意从github上clone下来的文件夹名称是x-LLM
+# 设置模型名称
 OUTPUT_NAME=$BASE_MODEL.$DATASET.$METHOD
 
-export HF_HOME=$CPFS_PATH/.cache/huggingface
-export WANDB_API_KEY="1fdc13c0384782e379b1e9200ac13fff7c1a92a7"
-export WANDB_PROJECT="mt_instruction_tuning"
-export WANDB_NAME=$OUTPUT_NAME
-export WANDB_NOTES="FSDP on 8 A100"
-export WANDB_DIR="$CPFS_PATH/log"
+# 设置环境变量
+export HF_HOME=$CPFS_PATH/.cache/huggingface # 缓存路径
+export WANDB_API_KEY="1fdc13c0384782e379b1e9200ac13fff7c1a92a7" # wandb的api key
+export WANDB_PROJECT="mt_instruction_tuning" # wandb的项目名称
+export WANDB_NAME=$OUTPUT_NAME # wandb的名称
+export WANDB_NOTES="FSDP on 8 A100" # wandb的备注
+export WANDB_DIR="$CPFS_PATH/log" # wandb的路径
 
 MODEL_ARGS=()
 case $BASE_MODEL in  
