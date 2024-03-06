@@ -1,5 +1,7 @@
 # Extrapolating Large Language Models to Non-English by Aligning Languages
 
+> Note: This project is a replication and learning for the original project (please refer to the citation at the end), which is located at https://github.com/NJUNLP/x-LLM
+
 This repository contains the code implementation for the project that aims to empower pre-trained Large Language Models (LLMs) on non-English languages by building semantic alignment across languages. The project explores cross-lingual instruction-tuning and multilingual instruction-tuning techniques. The code implementation is based on [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca).
 
 ![](./xllama.jpg)
@@ -7,7 +9,7 @@ This repository contains the code implementation for the project that aims to em
 ## Requirements and Installation
 To install this repository, follow these steps:
 ```
-git clone git@github.com:NJUNLP/x-LLM.git
+git clone git@github.com:dujh22/x-LLM.git
 cd x-LLM
 pip install --editable ./
 ```

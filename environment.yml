@@ -1,4 +1,4 @@
-name: /home/user/project/mt_instruction_tuning/.env
+name: xllm
 channels:
   - pytorch
   - nvidia
