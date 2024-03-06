@@ -36,7 +36,7 @@ import utils # utils是一个用于处理数据的库
 from torch.utils.data import Dataset # torch.utils.data是一个用于处理数据的库
 from transformers import Trainer # transformers是一个用于自然语言处理的库
 
-# 定义模型参数
+# 定义忽略索引
 IGNORE_INDEX = -100 # 定义忽略索引
 DEFAULT_PAD_TOKEN = "<pad>" # 定义默认填充标记
 DEFAULT_EOS_TOKEN = "</s>"  # 定义默认结束标记
@@ -59,20 +59,23 @@ PROMPT_DICT = {
 }
 
 
+# 定义模型参数
 @dataclass
-class ModelArguments: # 定义模型参数
+class ModelArguments:
     # 模型名称或路径
     model_name_or_path: Optional[str] = field(default="facebook/opt-125m")
-    
 
+
+# 定义数据参数
 @dataclass
-class DataArguments: # 定义数据参数
+class DataArguments: 
     # 数据路径
     data_path: str = field(default=None, metadata={"help": "Path to the training data."}) # 训练数据的路径
 
 
+# 定义训练参数
 @dataclass
-class TrainingArguments(transformers.TrainingArguments): # 定义训练参数
+class TrainingArguments(transformers.TrainingArguments): 
     # 缓存目录
     cache_dir: Optional[str] = field(default=None)
     # 输出目录
@@ -102,11 +105,14 @@ def smart_tokenizer_and_embedding_resize(
     if num_new_tokens > 0:
         # 获取输入嵌入的权重
         input_embeddings = model.get_input_embeddings().weight.data
+        # get_input_embeddings()方法用于获取输入嵌入的权重
+        # weight.data属性用于获取权重的数据
         # 获取输出嵌入的权重
         output_embeddings = model.get_output_embeddings().weight.data
 
         # 计算输入嵌入的平均值
         input_embeddings_avg = input_embeddings[:-num_new_tokens].mean(dim=0, keepdim=True) # 具体计算方法是将输入嵌入的前num_new_tokens个标记符去掉，然后求平均值
+        # dimension=0表示按列求平均值，keepdim=True表示保持原有的维度
         # 计算输出嵌入的平均值
         output_embeddings_avg = output_embeddings[:-num_new_tokens].mean(dim=0, keepdim=True) # 具体计算方法是将输出嵌入的前num_new_tokens个标记符去掉，然后求平均值
 
@@ -200,8 +206,9 @@ class SupervisedDataset(Dataset):
         return dict(input_ids=self.input_ids[i], labels=self.labels[i])
 
 
+# 定义监督数据集的数据收集器
 @dataclass
-class DataCollatorForSupervisedDataset(object): # 定义监督数据集的数据收集器
+class DataCollatorForSupervisedDataset(object): 
     """Collate examples for supervised fine-tuning. 为监督微调收集示例。"""
     # 分词器
     tokenizer: transformers.PreTrainedTokenizer
@@ -230,34 +237,38 @@ def make_supervised_data_module(tokenizer: transformers.PreTrainedTokenizer, dat
     train_dataset = SupervisedDataset(tokenizer=tokenizer, data_path=data_args.data_path)
     # 数据收集器
     data_collator = DataCollatorForSupervisedDataset(tokenizer=tokenizer)
+    # DataCollatorForSupervisedDataset用于收集监督微调的数据集
+    # 收集器用于将数据集中的数据收集到一起
     # 返回数据集和数据收集器
     return dict(train_dataset=train_dataset, eval_dataset=None, data_collator=data_collator)
 
 # 训练
 def train():
     # 解析器
-    parser = transformers.HfArgumentParser((ModelArguments, DataArguments, TrainingArguments))
+    parser = transformers.HfArgumentParser((ModelArguments, DataArguments, TrainingArguments)) # HfArgumentParser用于解析命令行参数
     # 解析参数
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
 
     # 模型
-    model = transformers.AutoModelForCausalLM.from_pretrained(
+    model = transformers.AutoModelForCausalLM.from_pretrained( 
+        # AutoModelForCausalLM用于自动加载模型
         model_args.model_name_or_path,
         cache_dir=training_args.cache_dir,
     )
 
     # 分词器
     tokenizer = transformers.AutoTokenizer.from_pretrained(
-        model_args.model_name_or_path,
-        cache_dir=training_args.cache_dir,
-        model_max_length=training_args.model_max_length,
-        padding_side="right",
-        use_fast=False,
+        # AutoTokenizer用于自动加载分词器
+        model_args.model_name_or_path, # 模型名称或路径
+        cache_dir=training_args.cache_dir, # 缓存目录
+        model_max_length=training_args.model_max_length, # 模型最大长度
+        padding_side="right", # 填充方向
+        use_fast=False, # 是否使用快速分词
     )
     # 特殊标记字典
     special_tokens_dict = dict()
     # 如果填充标记为空
-    if tokenizer.pad_token is None:
+    if tokenizer.pad_token is None: # tokenizer.pad_token用于获取填充标记
         special_tokens_dict["pad_token"] = DEFAULT_PAD_TOKEN
     # 如果结束标记为空
     if tokenizer.eos_token is None:
@@ -283,7 +294,7 @@ def train():
     # 训练
     trainer.train()
     # 保存状态
-    trainer.save_state()
+    trainer.save_state() # 在训练过程中保存模型的状态，以便在训练过程中出现问题时可以恢复模型的状态
     # 保存模型
     trainer.save_model(output_dir=training_args.output_dir)
 
