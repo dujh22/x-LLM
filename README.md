@@ -38,6 +38,8 @@ environment.yml是用conda命令将环境信息导出备份的文件。
 
 原因：typing-extensions(==4.7.1) 但多个其他包依赖不同的typing-extensions版本
 
+操作：openai==0.27.7需要自行安装
+
 2. 删除bleurt并自行安装
 
 原因：找不到包满足bleurt==0.0.2
