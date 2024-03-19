@@ -1,4 +1,4 @@
-name: xllm
+name: /home/user/project/mt_instruction_tuning/.env
 channels:
   - pytorch
   - nvidia
@@ -370,4 +370,4 @@ dependencies:
       - xformers==0.0.20
       - xxhash==3.2.0
       - yarl==1.9.2
-prefix: /home/djh/miniconda3/xllm
+prefix: /home/user/project/mt_instruction_tuning/.env
