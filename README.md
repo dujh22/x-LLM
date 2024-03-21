@@ -82,7 +82,7 @@ bash script/inference.sh llama-7b-hf.alpaca_en+alpaca_zh+translation_ncwm_en-zh.
 
 若要通过 Web UI 与 LLM 交互，请使用以下命令运行 app.py：
 ``` bash
-bash app.py model/llama-7b-hf.alpaca_en+alpaca_zh+translation_ncwm_en-zh.finetune
+python app.py model/llama-7b-hf.alpaca_en+alpaca_zh+translation_ncwm_en-zh.finetune
 ```
 
 ## 引文

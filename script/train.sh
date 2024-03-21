@@ -8,16 +8,16 @@ PROJECT_PATH=$CPFS_PATH/code/xllm
 OUTPUT_NAME=$BASE_MODEL.$DATASET.$METHOD
 
 export HF_HOME=$CPFS_PATH/.cache/huggingface
-export WANDB_API_KEY="1fdc13c0384782e379b1e9200ac13fff7c1a92a7"
+export WANDB_API_KEY="76ea5b2b06f6f9a718116bb3ec0bd54936f2fded"
 export WANDB_PROJECT="xllm"
 export WANDB_NAME=$OUTPUT_NAME
-export WANDB_NOTES="FSDP on 8 A100"
+export WANDB_NOTES="FSDP on 2 A800"
 export WANDB_DIR="$CPFS_PATH/log"
 
 MODEL_ARGS=()
 case $BASE_MODEL in
 	"llama-7b-hf")
-		MODEL_ARGS+=("--num_train_epochs 3")
+		MODEL_ARGS+=("--num_train_epochs 0.1")
 		MODEL_ARGS+=("--learning_rate 2e-5")
         FSDP="full_shard auto_wrap"
 		;;
