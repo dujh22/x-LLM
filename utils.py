@@ -1,27 +1,45 @@
+# 导入数据类库
 import dataclasses
+# 导入日志库
 import logging
+# 导入数学库
 import math
+# 导入操作系统库
 import os
+# 导入输入输出库
 import io
+# 导入系统库
 import sys
+# 导入时间库
 import time
+# 导入json库
 import json
+# 导入类型提示库
 from typing import Optional, Sequence, Union
+# 导入数据集库
 from datasets import load_dataset, Dataset, concatenate_datasets
 
+# 导入openai库
 import openai
+# 导入进度条库
 import tqdm
+# 从openai库中导入openai_object
 from openai import openai_object
+# 导入复制库
 import copy
 
+# 定义一个类型别名，表示字符串或OpenAIObject
 StrOrOpenAIObject = Union[str, openai_object.OpenAIObject]
 
+# 从环境变量中获取openai组织信息
 openai_org = os.getenv("OPENAI_ORG")
+# 如果获取到了openai组织信息，则设置openai的组织信息，并打印日志
 if openai_org is not None:
     openai.organization = openai_org
     logging.warning(f"Switching to organization: {openai_org} for OAI API key.")
 
 
+# 定义一个数据类，用于存储OpenAI解码的参数
 @dataclasses.dataclass
 class OpenAIDecodingArguments(object):
     max_tokens: int = 1800
@@ -37,6 +55,7 @@ class OpenAIDecodingArguments(object):
     echo: bool = False
 
 
+# 定义一个函数，用于调用OpenAI API进行文本补全
 def openai_completion(
     prompts: Union[str, Sequence[str], Sequence[dict[str, str]], dict[str, str]],
     decoding_args: OpenAIDecodingArguments,
@@ -131,6 +150,7 @@ def openai_completion(
     return completions
 
 
+# 定义一个函数，用于将文件或路径转换为可写的IO对象
 def _make_w_io_base(f, mode: str):
     if not isinstance(f, io.IOBase):
         f_dirname = os.path.dirname(f)
@@ -140,12 +160,14 @@ def _make_w_io_base(f, mode: str):
     return f
 
 
+# 定义一个函数，用于将文件或路径转换为可读的IO对象
 def _make_r_io_base(f, mode: str):
     if not isinstance(f, io.IOBase):
         f = open(f, mode=mode)
     return f
 
 
+# 定义一个函数，用于将字符串或字典以json格式写入文件
 def jdump(obj, f, mode="w", indent=4, default=str):
     """Dump a str or dictionary to a file in json format.
 
@@ -166,6 +188,7 @@ def jdump(obj, f, mode="w", indent=4, default=str):
     f.close()
 
 
+# 定义一个函数，用于从.json文件中加载字典
 def jload(f, mode="r"):
     """Load a .json file into a dictionary."""
     f = _make_r_io_base(f, mode)
@@ -173,6 +196,7 @@ def jload(f, mode="r"):
     f.close()
     return jdict
 
+# 定义一个函数，用于加载数据集
 def load_datasets(data_path, split:str="train", streaming_name_whitelist=["translation", "mc4"]):
     data_path_base, data_path_names = data_path.rsplit(os.path.sep, maxsplit=1)
     datasets = []

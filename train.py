@@ -78,12 +78,12 @@ class DataArguments:
 class TrainingArguments(transformers.TrainingArguments): 
     # 缓存目录
     cache_dir: Optional[str] = field(default=None)
-    # 输出目录
-    optim: str = field(default="adamw_torch")
+    # 用于配置深度学习模型的优化器，其中"adamw_torch"可能表示使用PyTorch库的AdamW优化器。
+    optim: str = field(default="adamw_torch")  
     # 模型最大长度
     model_max_length: int = field( 
         default=512,
-        metadata={"help": "Maximum sequence length. Sequences will be right padded (and possibly truncated)."},
+        metadata={"help": "Maximum sequence length. Sequences will be right padded (and possibly truncated) 最大序列长度。序列将向右填充（可能还会截断）."},
     )
 
 # 定义智能分词器和嵌入调整
@@ -249,8 +249,8 @@ class DataCollatorForSupervisedDataset(object):
         return dict(
             input_ids=input_ids,
             labels=labels,
-            attention_mask=input_ids.ne(self.tokenizer.pad_token_id),
-        )
+            attention_mask=input_ids.ne(self.tokenizer.pad_token_id), 
+        ) # 注意力掩码的计算方法是将输入标记符中不等于填充标记的标记符求和
 
 # 定义监督数据模块
 def make_supervised_data_module(tokenizer: transformers.PreTrainedTokenizer, data_args) -> Dict:
