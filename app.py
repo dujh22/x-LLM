@@ -175,7 +175,7 @@ g = gr.Interface(
 # 设置队列并发数
 g.queue(concurrency_count=1)
 # 启动界面
-g.launch()
+g.launch(server_port=8086)
 
 # Old testing code follows.
 
