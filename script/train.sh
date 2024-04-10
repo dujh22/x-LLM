@@ -3,8 +3,8 @@ DATASET=$2
 METHOD=${3:-"finetune"}
 
 PORT=$(( $RANDOM % 1000 + 32768 ))
-CPFS_PATH=/home/djh
-PROJECT_PATH=$CPFS_PATH/code/xllm
+CPFS_PATH=/workspace/dujh22
+PROJECT_PATH=$CPFS_PATH/xllm
 OUTPUT_NAME=$BASE_MODEL.$DATASET.$METHOD
 
 export HF_HOME=$CPFS_PATH/.cache/huggingface
@@ -46,7 +46,7 @@ case $METHOD in
 		;;
 esac
 
-source $CPFS_PATH/miniconda3/bin/activate $CPFS_PATH/miniconda3/envs/xllm3
+source /root/miniconda3/bin/activate /root/miniconda3/envs/xllm
 
 torchrun --nproc_per_node=2 --master_port=$PORT \
     $PROJECT_PATH/train.py \

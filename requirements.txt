@@ -1,9 +1,13 @@
 numpy
 rouge_score
 fire
-openai
-transformers>=4.28.1
+openai==0.27.7
+transformers==4.29.0
 torch
 sentencepiece
 tokenizers>=0.13.3
 wandb
+utils
+datasets
+accelerate==0.19.0
+iso-639==0.4.5

@@ -1,13 +1,9 @@
-name: xllm3
+name: xllm
 channels:
   - pytorch
   - nvidia
   - conda-forge
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/pro
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
+  - defaults
 dependencies:
   - _libgcc_mutex=0.1=main
   - _openmp_mutex=5.1=1_gnu
@@ -372,5 +368,5 @@ dependencies:
       - xxhash
       - yarl
       - -i https://pypi.tuna.tsinghua.edu.cn/simple
-prefix: /home/djh/miniconda3/envs/xllm3
+prefix: /root/miniconda3/envs/xllm
 

@@ -2,8 +2,8 @@ MODEL_NAME=$1
 DATASET=$2
 BATCH=${3:-8}
 
-CPFS_PATH=/home/djh
-PROJECT_PATH=$CPFS_PATH/code/xllm
+CPFS_PATH=/workspace/dujh22
+PROJECT_PATH=$CPFS_PATH/xllm
 
 export HF_HOME=$CPFS_PATH/.cache/huggingface
 
@@ -62,7 +62,7 @@ case $MODEL_NAME in
 		;;
 esac
 
-source $CPFS_PATH/miniconda3/bin/activate $CPFS_PATH/miniconda3/envs/xllm3
+source /root/miniconda3/bin/activate /root/miniconda3/envs/xllm
 
 mkdir -p "$PROJECT_PATH/model/$MODEL_NAME/test"
 
