@@ -11,8 +11,11 @@ from train import smart_tokenizer_and_embedding_resize, \
     DataArguments
 # 这些导入项包括用于调整tokenizer和embedding大小的函数、默认的特殊token、用于存储prompt模板的字典、以及一个用于存储数据参数的类
 
-# 获取命令行参数中指定的基础模型名称
-BASE_MODEL = sys.argv[1]  # 第一个命令行参数被视为基础模型的名称
+# 获取命令行参数中指定的基础模型名称，设置默认值为model/llama-7b-hf.alpaca_en+alpaca_zh+translation_ncwm_en-zh.finetune
+BASE_MODEL = "model/llama-7b-hf.alpaca_en+alpaca_zh+translation_ncwm_en-zh.finetune"
+if len(sys.argv) > 1:
+    BASE_MODEL = sys.argv[1]  # 第一个命令行参数被视为基础模型的名称
+
 
 # 根据系统是否支持CUDA决定使用的设备
 if torch.cuda.is_available():
@@ -175,7 +178,7 @@ g = gr.Interface(
 # 设置队列并发数
 g.queue(concurrency_count=1)
 # 启动界面
-g.launch(server_name='172.16.64.103', server_port=8087)
+g.launch(server_name='0.0.0.0', server_port=8086)
 
 # Old testing code follows.
 
